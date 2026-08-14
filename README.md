@@ -19,7 +19,7 @@ Manage users, traffic, sessions, connection limits, remote nodes, resellers, and
 On a clean Ubuntu host, as `root`:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/main/get-apadana.sh) --yes
+bash <(curl -fsSL https://raw.githubusercontent.com/Karrari-Dev/apadana/main/get-apadana.sh) --yes
 ```
 
 This downloads the latest [Release](https://github.com/Karrari-Dev/apadana/releases) and installs the panel.
@@ -36,13 +36,13 @@ Admin UI port: **3000** · subscription portal: **3001**
 
 ```bash
 apadana-panel panel-host backup-create
-bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/main/get-apadana.sh) --yes
+bash <(curl -fsSL https://raw.githubusercontent.com/Karrari-Dev/apadana/main/get-apadana.sh) --yes
 ```
 
 ### Support
 
-- Channel: (https://t.me/panel_apadana)  
-- Support: (https://t.me/G0dline)
+- Channel: [t.me/panel_apadana](https://t.me/panel_apadana)  
+- Support: [t.me/G0dline](https://t.me/G0dline)
 
 ---
 
@@ -55,7 +55,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/ma
 روی Ubuntu تمیز، با `root`:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/main/get-apadana.sh) --yes
+bash <(curl -fsSL https://raw.githubusercontent.com/Karrari-Dev/apadana/main/get-apadana.sh) --yes
 ```
 
 آخرین [Release](https://github.com/Karrari-Dev/apadana/releases) دانلود و نصب می‌شود.
@@ -72,10 +72,10 @@ bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/ma
 
 ```bash
 apadana-panel panel-host backup-create
-bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/main/get-apadana.sh) --yes
+bash <(curl -fsSL https://raw.githubusercontent.com/Karrari-Dev/apadana/main/get-apadana.sh) --yes
 ```
 
 ### پشتیبانی
 
-- کانال:(https://t.me/panel_apadana)  
-- پشتیبانی:(https://t.me/G0dline)
+- کانال: [t.me/panel_apadana](https://t.me/panel_apadana)  
+- پشتیبانی: [t.me/G0dline](https://t.me/G0dline)
