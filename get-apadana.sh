@@ -2,7 +2,7 @@
 # GitHub / local binary installer — two ELFs + optional SHA256SUMS → full panel install.
 #
 # GitHub (after Release is published):
-#   bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/main/get-apadana.sh) --yes
+#   bash <(curl -fsSL https://raw.githubusercontent.com/Karrari-Dev/apadana/main/get-apadana.sh) --yes
 #
 # Local (no GitHub — drop 3–4 files in one folder, then):
 #   apadana-panel · apadana-agent · get-apadana.sh · (optional) SHA256SUMS
@@ -14,8 +14,9 @@
 # Never: curl … | bash  (breaks interactive prompts)
 set -euo pipefail
 
-REPO="${APADANA_GITHUB_REPO:-apadana-vpn/apadana-panel}"
-VERSION="latest"
+REPO="${APADANA_GITHUB_REPO:-Karrari-Dev/apadana}"
+# Not named VERSION — /etc/os-release defines VERSION="22.04.5 LTS (…)" and would clobber it.
+RELEASE_TAG="latest"
 ASSUME_YES=0
 FORCE_GITHUB=0
 INSTALL_ARGS=()
@@ -30,10 +31,11 @@ usage: get-apadana.sh [--version TAG] [--yes] [--github] [install args…]
     Place apadana-panel, apadana-agent, get-apadana.sh in /root (optional SHA256SUMS)
     sudo bash get-apadana.sh --yes
 
-  GitHub mode:
-    bash <(curl -fsSL …/main/get-apadana.sh) --yes
-    or: get-apadana.sh --github --yes
+  GitHub mode (no local ELFs, or --github):
+    bash <(curl -fsSL https://raw.githubusercontent.com/Karrari-Dev/apadana/main/get-apadana.sh) --yes
+    downloads Release assets: apadana-panel, apadana-agent, SHA256SUMS
 
+  --repo      GitHub owner/name (default: Karrari-Dev/apadana)
   --version   release tag (GitHub mode, default: latest)
   --yes|-y    non-interactive → apadana-panel install --yes
   --github    download from GitHub even if local binaries exist
@@ -44,7 +46,11 @@ EOF
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --version)
-      VERSION="${2:?}"
+      RELEASE_TAG="${2:?}"
+      shift 2
+      ;;
+    --repo)
+      REPO="${2:?}"
       shift 2
       ;;
     --yes|-y)
@@ -72,8 +78,9 @@ if [[ "${EUID}" -ne 0 ]]; then
   exit 1
 fi
 
-. /etc/os-release
-if [[ "${ID}" != "ubuntu" || ( "${VERSION_ID}" != "22.04" && "${VERSION_ID}" != "24.04" ) ]]; then
+OS_ID="$(. /etc/os-release && printf '%s' "${ID}")"
+OS_VERSION_ID="$(. /etc/os-release && printf '%s' "${VERSION_ID}")"
+if [[ "${OS_ID}" != "ubuntu" || ( "${OS_VERSION_ID}" != "22.04" && "${OS_VERSION_ID}" != "24.04" ) ]]; then
   echo "Only Ubuntu 22.04 / 24.04 is supported." >&2
   exit 1
 fi
@@ -168,7 +175,7 @@ if [[ -n "${LOCAL_PANEL}" && -n "${LOCAL_AGENT}" ]]; then
     echo "WARN: SHA256SUMS not found — skipping checksum (add it for production)" >&2
   fi
 else
-  if [[ "${VERSION}" == "latest" ]]; then
+  if [[ "${RELEASE_TAG}" == "latest" ]]; then
     API_URL="https://api.github.com/repos/${REPO}/releases/latest"
     TAG="$(curl -fsSL "${API_URL}" | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -1)"
     if [[ -z "${TAG}" ]]; then
@@ -177,7 +184,7 @@ else
       exit 1
     fi
   else
-    TAG="${VERSION}"
+    TAG="${RELEASE_TAG}"
   fi
 
   BASE="https://github.com/${REPO}/releases/download/${TAG}"
