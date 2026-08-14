@@ -197,19 +197,13 @@ else
 
   echo "=== Apadana get ${TAG} (${ARCH_TAG}) from ${REPO} ==="
   _github_get() {
-    local dest="$1" name="$2"
+    local name="$1"
     echo ">>> downloading ${name}"
-    # Release assets are unsuffixed (apadana-panel). Arch names are optional fallback.
-    if curl -fL --progress-bar -o "${dest}" "${BASE}/${name}"; then
-      return 0
-    fi
-    echo ">>> ${name} not on this release, trying ${name}-${ARCH_TAG}"
-    curl -fL --progress-bar -o "${dest}" "${BASE}/${name}-${ARCH_TAG}"
+    curl -fL --progress-bar -o "${name}" "${BASE}/${name}"
   }
-  _github_get apadana-panel apadana-panel
-  _github_get apadana-agent apadana-agent
-  echo ">>> downloading SHA256SUMS"
-  curl -fL --progress-bar -o SHA256SUMS "${BASE}/SHA256SUMS"
+  _github_get apadana-panel
+  _github_get apadana-agent
+  _github_get SHA256SUMS
   _normalize_sums
 
   _check apadana-panel
