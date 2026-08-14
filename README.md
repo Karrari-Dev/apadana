@@ -41,8 +41,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/ma
 
 ### Support
 
-- Channel: [t.me/YOUR_CHANNEL](https://t.me/panel_apadana)  
-- Support: [t.me/YOUR_SUPPORT](https://t.me/G0dline)
+- Channel: (https://t.me/panel_apadana)  
+- Support: (https://t.me/G0dline)
 
 ---
 
@@ -77,5 +77,5 @@ bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/ma
 
 ### پشتیبانی
 
-- کانال: [t.me/YOUR_CHANNEL](https://t.me/YOUR_CHANNEL)  
-- پشتیبانی: [t.me/YOUR_SUPPORT](https://t.me/YOUR_SUPPORT)
+- کانال:(https://t.me/panel_apadana)  
+- پشتیبانی:(https://t.me/G0dline)
