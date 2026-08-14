@@ -22,7 +22,7 @@ On a clean Ubuntu host, as `root`:
 bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/main/get-apadana.sh) --yes
 ```
 
-This downloads the latest [Release](https://github.com/apadana-vpn/apadana-panel/releases) and installs the panel.
+This downloads the latest [Release](https://github.com/Karrari-Dev/apadana/releases) and installs the panel.
 
 Then:
 
@@ -58,7 +58,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/ma
 bash <(curl -fsSL https://raw.githubusercontent.com/apadana-vpn/apadana-panel/main/get-apadana.sh) --yes
 ```
 
-آخرین [Release](https://github.com/apadana-vpn/apadana-panel/releases) دانلود و نصب می‌شود.
+آخرین [Release](https://github.com/Karrari-Dev/apadana/releases) دانلود و نصب می‌شود.
 
 بعد:
 
