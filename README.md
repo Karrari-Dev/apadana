@@ -2,6 +2,8 @@
 
 VPN control panel for your own server.  
 **OpenVPN** · **WireGuard** · **Cisco AnyConnect** · **L2TP/IPsec**
+<img width="2540" height="1394" alt="Screenshot 2026-08-28 003550" src="https://github.com/user-attachments/assets/503cfb9b-325d-4406-b82c-986b7c2d9842" />
+<img width="2536" height="1399" alt="Screenshot 2026-08-28 003525" src="https://github.com/user-attachments/assets/03cc92ff-c489-45e8-88b3-2f708c173421" />
 
 Manage users, traffic, sessions, connection limits, remote nodes, resellers, and the customer subscription page from one dashboard.
 
