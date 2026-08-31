@@ -100,7 +100,7 @@ esac
 
 _find_local() {
   local name="$1"
-  for dir in "${SCRIPT_DIR}" "$(pwd)" /root; do
+  for dir in "${SCRIPT_DIR}" "${SCRIPT_DIR}/bin" "$(pwd)" "$(pwd)/bin" /root /root/bin; do
     [[ -f "${dir}/${name}" ]] || continue
     echo "${dir}/${name}"
     return 0
@@ -242,6 +242,40 @@ if [[ -f /etc/apadana/apadana.env && -x /opt/apadana/bin/apadana-panel ]]; then
     INSTALL_ARGS+=(--skip-packages)
   fi
 fi
+
+# Nuitka onefile extracts to a FIXED path:
+#   /var/lib/apadana/runtime/apadana-panel/apadana-panel.bin
+# If the live unit already has that payload mapped, the new installer cannot
+# open it for writing (ETXTBSY → "failed to open … for writing"). Stop first.
+# Healthcheck timer must stop before core units or it restarts the panel mid-unpack.
+_stop_for_onefile_unpack() {
+  echo ">>> stopping panel services so the new binary can unpack"
+  local unit i
+  install -d -m 0755 /var/lib/apadana
+  date +%s > /var/lib/apadana/install.lock
+  for unit in apadana-healthcheck.timer apadana-healthcheck.service \
+    apadana-panel apadana-agent apadana-gateway; do
+    systemctl stop "${unit}" >/dev/null 2>&1 || true
+  done
+  for i in $(seq 1 15); do
+    if systemctl is-active --quiet apadana-panel 2>/dev/null \
+      || systemctl is-active --quiet apadana-agent 2>/dev/null \
+      || systemctl is-active --quiet apadana-healthcheck.service 2>/dev/null; then
+      sleep 1
+    else
+      break
+    fi
+  done
+  for unit in apadana-healthcheck.service apadana-panel apadana-agent apadana-gateway; do
+    if systemctl is-active --quiet "${unit}" 2>/dev/null; then
+      echo "    warn: ${unit} did not stop; sending SIGKILL"
+      systemctl kill -s SIGKILL --kill-whom=all "${unit}" >/dev/null 2>&1 || true
+      systemctl stop "${unit}" >/dev/null 2>&1 || true
+    fi
+  done
+  rm -rf /var/lib/apadana/runtime/apadana-panel /var/lib/apadana/runtime/apadana-agent
+}
+_stop_for_onefile_unpack
 
 echo ">>> starting: apadana-panel install ${INSTALL_ARGS[*]:-}"
 # Avoid bare exec so OOM/crash still prints a clear exit code.
