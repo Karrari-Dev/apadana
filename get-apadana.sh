@@ -253,8 +253,10 @@ _stop_for_onefile_unpack() {
   local unit i
   install -d -m 0755 /var/lib/apadana
   date +%s > /var/lib/apadana/install.lock
+  # Stop the WG fail-closed guard before the agent. Otherwise a 25s grace window
+  # during unpack kills wg-quick@wg1 for the whole upgrade.
   for unit in apadana-healthcheck.timer apadana-healthcheck.service \
-    apadana-panel apadana-agent apadana-gateway; do
+    apadana-vpn-guard apadana-panel apadana-agent apadana-gateway; do
     systemctl stop "${unit}" >/dev/null 2>&1 || true
   done
   for i in $(seq 1 15); do
